@@ -1,5 +1,5 @@
 const { createHandler } = require('@app-core/server');
-const deleteCreatorCard = require('@app/services/creator-cards/delete');
+const { deleteCreatorCard } = require('@app/services/creator-card');
 
 module.exports = createHandler({
   path: '/creator-cards/:slug',
