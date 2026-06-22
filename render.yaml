@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: resi-venture-api
+    env: node
+    region: ohio
+    branch: develop
+    buildCommand: npm install
+    startCommand: node app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
