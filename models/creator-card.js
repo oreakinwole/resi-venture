@@ -2,7 +2,7 @@ const { ModelSchema, SchemaTypes, DatabaseModel } = require('@app-core/mongoose'
 
 const modelName = 'creator_cards';
 
-const schemaConfig = {
+const creatorCardSchema = {
   _id: { type: SchemaTypes.ULID, required: true },
   title: { type: SchemaTypes.String, required: true },
   description: { type: SchemaTypes.String },
@@ -18,6 +18,6 @@ const schemaConfig = {
   deleted: { type: SchemaTypes.Number },
 };
 
-const modelSchema = new ModelSchema(schemaConfig, { collection: modelName });
+const modelSchema = new ModelSchema(creatorCardSchema, { collection: modelName });
 
 module.exports = DatabaseModel.model(modelName, modelSchema);

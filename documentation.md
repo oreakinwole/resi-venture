@@ -433,7 +433,7 @@ const timestamps = require('./plugins/timestamps');
 
 const modelName = 'identities'; // Plural, camelCase
 
-const schemaConfig = {
+const identitySchema = {
   _id: { type: SchemaTypes.ULID }, // Always use ULID for IDs
   email: { type: SchemaTypes.String, unique: true, index: true },
   first_name: { type: SchemaTypes.String },
@@ -443,7 +443,7 @@ const schemaConfig = {
   // Never add: enum: [] (validation is in services)
 };
 
-const modelSchema = new ModelSchema(schemaConfig, { collection: modelName });
+const modelSchema = new ModelSchema(identitySchema, { collection: modelName });
 modelSchema.plugin(timestamps); // Adds created, updated, deleted
 
 module.exports = DatabaseModel.model(modelName, modelSchema, { paranoid: true });

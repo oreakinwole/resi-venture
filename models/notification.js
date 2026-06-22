@@ -19,7 +19,7 @@ const modelName = 'notifications';
  * @property {Number} updated
  */
 
-const schemaConfig = {
+const notificationSchema = {
   _id: { type: SchemaTypes.ULID, required: true },
   payload: { type: SchemaTypes.Mixed, required: true },
   template: { type: SchemaTypes.String, required: true },
@@ -35,7 +35,7 @@ const schemaConfig = {
   updated: { type: SchemaTypes.Number, required: true },
 };
 
-const modelSchema = new ModelSchema(schemaConfig, { collection: modelName });
+const modelSchema = new ModelSchema(notificationSchema, { collection: modelName });
 
 /** @type {ModelSchema} */
 module.exports = DatabaseModel.model(modelName, modelSchema);

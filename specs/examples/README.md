@@ -230,7 +230,7 @@ Model definitions are **reference documentation** for database schema. They show
 
 ```javascript
 // Based on mood.go model definition
-const schemaConfig = {
+const moodSchema = {
   _id: { type: SchemaTypes.ULID },
   user_id: { type: SchemaTypes.String, index: true },
   emoji: { type: SchemaTypes.String },
@@ -239,6 +239,8 @@ const schemaConfig = {
   is_public: { type: SchemaTypes.Boolean },
   meta: { type: SchemaTypes.Mixed },
 };
+
+const modelSchema = new ModelSchema(moodSchema, { collection: modelName });
 ```
 
 ### Validation in Services
