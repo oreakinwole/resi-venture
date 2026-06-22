@@ -41,20 +41,23 @@ function logEndpointMetaData(endpointConfigs) {
     const dirs = fs.readdirSync(basePath);
 
     dirs.forEach((file) => {
-      const handler = require(`${basePath}${file}`);
+      const exports = require(`${basePath}${file}`);
+      const handlers = Array.isArray(exports) ? exports : [exports];
 
-      if (!EXEMPTED_ENDPOINTS_REGEX.test(basePath) && handler.middlewares?.length) {
-        const entry = { method: handler.method, endpoint: handler.path };
-        entry.name = file.replaceAll('-', ' ').replace('.js', '');
-        entry.display_name = `can ${entry.name}`;
+      handlers.forEach((handler) => {
+        if (!EXEMPTED_ENDPOINTS_REGEX.test(basePath) && handler.middlewares?.length) {
+          const entry = { method: handler.method, endpoint: handler.path };
+          entry.name = file.replaceAll('-', ' ').replace('.js', '');
+          entry.display_name = `can ${entry.name}`;
 
-        if (options?.pathPrefix) {
-          entry.endpoint = `${options.pathPrefix}${entry.endpoint}`;
-          entry.name = `${entry.name} (${options.pathPrefix.replace('/', '')})`;
+          if (options?.pathPrefix) {
+            entry.endpoint = `${options.pathPrefix}${entry.endpoint}`;
+            entry.name = `${entry.name} (${options.pathPrefix.replace('/', '')})`;
+          }
+
+          endpointData.push(entry);
         }
-
-        endpointData.push(entry);
-      }
+      });
     });
   });
 
@@ -75,13 +78,16 @@ function setupEndpointHandlers(basePath, options = {}) {
   const dirs = fs.readdirSync(basePath);
 
   dirs.forEach((file) => {
-    const handler = require(`${basePath}${file}`);
+    const exports = require(`${basePath}${file}`);
+    const handlers = Array.isArray(exports) ? exports : [exports];
 
-    if (options.pathPrefix) {
-      handler.path = `${options.pathPrefix}${handler.path}`;
-    }
+    handlers.forEach((handler) => {
+      const endpointHandler = options.pathPrefix
+        ? { ...handler, path: `${options.pathPrefix}${handler.path}` }
+        : handler;
 
-    server.addHandler(handler);
+      server.addHandler(endpointHandler);
+    });
   });
 }
 
